@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sugerir Canción</title>
+  <link rel="stylesheet" href="./assets/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="navbar">
+  <h3>Nuestra Boda</h3>
+  <div class="nav-links">
+    <a href="index.html">Inicio</a>
+    <a href="ubicacion.html">Ubicación</a>
+    <a href="canciones.html">Canciones</a>
+    <a href="fotos.html">Fotos</a>
+    <a href="regalos.html">Regalos</a>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Sugerir Canción</h2>
+
+  <input type="text" id="cancion" placeholder="Nombre de la canción">
+  <button onclick="agregarCancion()">Agregar</button>
+
+  <h3>Lista de Canciones</h3>
+  <ul id="listaCanciones"></ul>
+
+  <br>
+  <a href="index.html">⬅ Volver</a>
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbx6bAWbY-K4qPsSAQlIGQLgBbkmugGCchb8LSyc6HV490kUuUe6KeKQKin3OBWgk8kQ/exec";
+
+async function cargarCanciones() {
+  const res = await fetch(API_URL);
+  const data = await res.json();
+  const lista = document.getElementById("listaCanciones");
+  lista.innerHTML = "";
+
+  data.forEach(c => {
+    const li = document.createElement("li");
+    li.textContent = c;
+    lista.appendChild(li);
+  });
+}
+
+async function agregarCancion() {
+  const cancion = document.getElementById("cancion").value.trim();
+  if (!cancion) return;
+
+  await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({ cancion }),
+  });
+
+  document.getElementById("cancion").value = "";
+  cargarCanciones();
+}
+
+cargarCanciones();
+</script>
+
+</body>
+</html>

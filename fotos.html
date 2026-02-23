@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Subir Fotos</title>
+  <link rel="stylesheet" href="./assets/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="navbar">
+  <h3>Nuestra Boda</h3>
+  <div class="nav-links">
+    <a href="index.html">Inicio</a>
+    <a href="ubicacion.html">Ubicación</a>
+    <a href="canciones.html">Canciones</a>
+    <a href="fotos.html">Fotos</a>
+    <a href="regalos.html">Regalos</a>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Subir Fotos del Evento</h2>
+
+  <input type="file" id="foto" multiple>
+  <button onclick="subirFotos()">Subir</button>
+
+  <p id="estado"></p>
+
+  <br>
+  <a href="index.html">⬅ Volver</a>
+</div>
+
+<script>
+const UPLOAD_URL = "PEGA_AQUI_TU_NUEVO_SCRIPT";
+
+async function subirFotos() {
+  const archivos = document.getElementById("foto").files;
+  const estado = document.getElementById("estado");
+
+  if (!archivos.length) return;
+
+  estado.textContent = "Subiendo...";
+
+  for (let archivo of archivos) {
+    const reader = new FileReader();
+
+    reader.onload = async function(e) {
+      await fetch(UPLOAD_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          nombre: archivo.name,
+          tipo: archivo.type,
+          datos: e.target.result.split(',')[1]
+        })
+      });
+    };
+
+    reader.readAsDataURL(archivo);
+  }
+
+  estado.textContent = "Fotos enviadas correctamente 🎉";
+}
+</script>
+
+</body>
+</html>
