@@ -5,6 +5,7 @@
   <title>Sugerir Canción</title>
   <link rel="stylesheet" href="./assets/style.css">
 
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -23,7 +24,7 @@
   <h2>Sugerir Canción</h2>
 
   <input type="text" id="cancion" placeholder="Nombre de la canción">
-  <button onclick="this.agregarCancion()">Agregar</button>
+  <button onclick="agregarCancion()">Agregar</button>
 
   <h3>Lista de Canciones</h3>
   <ul id="listaCanciones"></ul>
@@ -64,6 +65,6 @@ async function agregarCancion() {
 
 cargarCanciones();
 </script>
-
+<script src="./assets/script.js"></script>
 </body>
 </html>
