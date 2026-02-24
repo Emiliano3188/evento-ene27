@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <title>Sugerir Canción</title>
   <link rel="stylesheet" href="./assets/style.css">
-
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -34,38 +32,6 @@
   <a href="index.html">⬅ Volver</a>
 </div>
 
-<script>
-
-const API_URL = "https://script.google.com/macros/s/AKfycbxh8HHttDdvc4vOgW-LliLGQO9QuLH4mUk_aUnfhz3lybk2FbxYGj3oIdH3r-L8l0mO/exec";
-
-async function cargarCanciones() {
-  const res = await fetch(API_URL);
-  const data = await res.json();
-  const lista = document.getElementById("listaCanciones");
-  lista.innerHTML = "";
-
-  data.forEach(c => {
-    const li = document.createElement("li");
-    li.textContent = c;
-    lista.appendChild(li);
-  });
-}
-
-async function agregarCancion() {
-  const cancion = document.getElementById("cancion").value.trim();
-  if (!cancion) return;
-
-  await fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({ cancion }),
-  });
-
-  document.getElementById("cancion").value = "";
-  cargarCanciones();
-}
-
-cargarCanciones();
-</script>
 <script src="./assets/script.js"></script>
 </div>
 </body>
