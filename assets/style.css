@@ -204,4 +204,8 @@ footer {
     height: 300px;
   }
 
+  body {
+  padding-top: 120px;
+  }
+
 }

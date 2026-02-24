@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbwjGsvkg4ax4kfD8xgJm_Xd7cHp9pR0pNyxEO3ZKX2S0Wq5OjH9x2n8Q2HkoDnoRquZ/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbxh8HHttDdvc4vOgW-LliLGQO9QuLH4mUk_aUnfhz3lybk2FbxYGj3oIdH3r-L8l0mO/exec";
 
 document.addEventListener("DOMContentLoaded", cargarCanciones);
 
@@ -24,20 +24,17 @@ async function cargarCanciones() {
 async function agregarCancion() {
   const input = document.getElementById("cancion");
   const cancion = input.value.trim();
-
   if (!cancion) return;
 
   try {
     await fetch(API_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "text/plain"
-      },
+      mode: "no-cors",
       body: JSON.stringify({ cancion })
     });
 
     input.value = "";
-    cargarCanciones();
+    setTimeout(cargarCanciones, 1000);
 
   } catch (error) {
     console.error("Error agregando canción:", error);
