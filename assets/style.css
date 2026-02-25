@@ -205,10 +205,12 @@ footer {
   }
 
   body {
-  padding-top: 120px;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: #3d3d3d;
+    background: url("./fondo.png") center/cover fixed no-repeat;
+    padding-top: 120px;
+  
   }
 
-  .page-content {
-  margin-top: 120px;
-}
 }
