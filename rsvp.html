@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirmar Asistencia</title>
+  <link rel="stylesheet" href="./assets/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<div class="navbar">
+  <h3>Nuestra Boda</h3>
+
+  <div class="nav-links">
+    <a href="index.html">Inicio</a>
+    <a href="ubicacion.html">Ubicación</a>
+    <a href="canciones.html">Canciones</a>
+    <a href="fotos.html">Fotos</a>
+    <a href="regalos.html">Regalos</a>
+    <a href="tipsynotas.html">Tips</a>
+    <a href="rsvp.html">Confirmar</a>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Confirmar Asistencia</h2>
+  <p class="rsvp-intro">
+    Nos ayudaría muchísimo que puedas confirmar tu asistencia para organizarnos mejor.
+  </p>
+
+  <div class="rsvp-formulario">
+
+    <div class="rsvp-bloque">
+      <label for="busquedaInvitado">Buscar invitado</label>
+      <input
+        type="text"
+        id="busquedaInvitado"
+        list="listaInvitados"
+        placeholder="Escribí tu nombre"
+        autocomplete="off"
+      >
+      <datalist id="listaInvitados"></datalist>
+    </div>
+
+    <div class="rsvp-bloque rsvp-datos" id="datosInvitado" style="display:none;">
+      <h3>Datos del invitado</h3>
+      <p><strong>Invitado:</strong> <span id="datoInvitado"></span></p>
+      <p><strong>Código:</strong> <span id="datoCodigo"></span></p>
+      <p><strong>Cupos disponibles:</strong> <span id="datoCupos"></span></p>
+      <!-- <p><strong>Saldo pendiente:</strong> <span id="datoSaldo"></span></p> -->
+    </div>
+
+    <div class="rsvp-bloque" id="bloqueConfirmacion" style="display:none;">
+      <label for="confirmacionSelect">Confirmación</label>
+      <select id="confirmacionSelect"></select>
+    </div>
+
+    <div class="rsvp-bloque" id="bloqueMensaje" style="display:none;">
+      <label for="mensajeNovios">Mensaje para los novios</label>
+      <textarea
+        id="mensajeNovios"
+        rows="4"
+        placeholder="Dejanos un mensajito si querés 💛"
+      ></textarea>
+    </div>
+
+    <div class="rsvp-bloque" id="bloqueBoton" style="display:none;">
+      <button class="btn" onclick="guardarRSVP()">Confirmar asistencia</button>
+    </div>
+
+    <p id="estadoRSVP" class="estado-rsvp"></p>
+  </div>
+</div>
+
+<script src="./assets/rsvp.js"></script>
+</body>
+</html>
