@@ -1,5 +1,5 @@
 
-const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbybGQaCLsyZ-EdSTo_xYk6BbUtNjcLjpqRLGwrEaZJVXgfuDzcTwHMEJGxz2kzVwSJ5/exec";
+const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbyCXuyD2Df9m1cBwAM4vDiABmajhPNGGoPfNrXv7eG7qT8LxOoxRfU9uYmUF-4Qux4w/exec";
 
 let invitados = [];
 let invitadoSeleccionado = null;
