@@ -1,8 +1,8 @@
-
-const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbxuXrhH1Aq1z0vHtQeNw3KOBlrOm9bt-giqR0txunmGH3hWQjqb7etv0I-h4QTPlJ11/exec";
+const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbxwGu7FQPYJkaKFrstRmpWGlw0Oz3-hiMjlFWwWuybc_zjLcIq3VJasJAqwYuHRT1kf/exec";
 
 let invitados = [];
 let invitadoSeleccionado = null;
+
 document.addEventListener("DOMContentLoaded", () => {
   cargarInvitados();
 
@@ -15,15 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     timeoutBusqueda = setTimeout(() => {
       manejarSeleccionInvitado();
-    }, 400);
+    }, 400); // espera 400ms después de que deja de escribir
   });
 });
-// document.addEventListener("DOMContentLoaded", () => {
-//   cargarInvitados();
-
-//   const inputBusqueda = document.getElementById("busquedaInvitado");
-//   inputBusqueda.addEventListener("input", manejarSeleccionInvitado);
-// });
 
 /* =========================
    CARGAR INVITADOS
@@ -34,6 +28,8 @@ async function cargarInvitados() {
     const data = await res.json();
 
     invitados = Array.isArray(data) ? data : [];
+
+    console.log("Invitados cargados:", invitados);
 
     const datalist = document.getElementById("Invitados");
     datalist.innerHTML = "";
@@ -57,7 +53,9 @@ async function cargarInvitados() {
    BUSQUEDA INTELIGENTE
 ========================= */
 function manejarSeleccionInvitado() {
-  const texto = document.getElementById("busquedaInvitado").value
+  const texto = document
+    .getElementById("busquedaInvitado")
+    .value
     .trim()
     .toLowerCase();
 
@@ -66,11 +64,14 @@ function manejarSeleccionInvitado() {
     return;
   }
 
-  // 🔥 BUSQUEDA TOLERANTE (contiene texto)
+  // 🔥 BUSQUEDA TOLERANTE (NO rompe si viene undefined)
   invitadoSeleccionado = invitados.find(inv => {
     const nombre = String(inv.invitado || "").toLowerCase();
     return nombre.includes(texto);
   });
+
+  console.log("Texto buscado:", texto);
+  console.log("Invitado encontrado:", invitadoSeleccionado);
 
   if (!invitadoSeleccionado) {
     ocultarBloquesRSVP();
@@ -85,9 +86,9 @@ function manejarSeleccionInvitado() {
    MOSTRAR DATOS
 ========================= */
 function mostrarDatosInvitado(inv) {
-  document.getElementById("datoInvitado").textContent = inv.invitado;
-  document.getElementById("datoCodigo").textContent = inv.codigo;
-  document.getElementById("datoCupos").textContent = inv.cupos;
+  document.getElementById("datoInvitado").textContent = inv.invitado || "-";
+  document.getElementById("datoCodigo").textContent = inv.codigo || "-";
+  document.getElementById("datoCupos").textContent = inv.cupos || 0;
 
   document.getElementById("datosInvitado").style.display = "block";
   document.getElementById("bloqueConfirmacion").style.display = "block";
