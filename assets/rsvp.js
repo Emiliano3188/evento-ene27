@@ -3,13 +3,27 @@ const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbxuXrhH1Aq1z0vHtQe
 
 let invitados = [];
 let invitadoSeleccionado = null;
-
 document.addEventListener("DOMContentLoaded", () => {
   cargarInvitados();
 
   const inputBusqueda = document.getElementById("busquedaInvitado");
-  inputBusqueda.addEventListener("input", manejarSeleccionInvitado);
+
+  let timeoutBusqueda;
+
+  inputBusqueda.addEventListener("input", () => {
+    clearTimeout(timeoutBusqueda);
+
+    timeoutBusqueda = setTimeout(() => {
+      manejarSeleccionInvitado();
+    }, 400);
+  });
 });
+// document.addEventListener("DOMContentLoaded", () => {
+//   cargarInvitados();
+
+//   const inputBusqueda = document.getElementById("busquedaInvitado");
+//   inputBusqueda.addEventListener("input", manejarSeleccionInvitado);
+// });
 
 /* =========================
    CARGAR INVITADOS
