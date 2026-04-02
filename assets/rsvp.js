@@ -1,5 +1,5 @@
 
-const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbyCXuyD2Df9m1cBwAM4vDiABmajhPNGGoPfNrXv7eG7qT8LxOoxRfU9uYmUF-4Qux4w/exec";
+const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbwVUEOIgqJgV-Uma1h0viJps_cXTrwZPiJeWyac2zgv5_5ICAfI9BnG2RgKqG1BlIyk/exec";
 
 let invitados = [];
 let invitadoSeleccionado = null;
@@ -14,12 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function cargarInvitados() {
   try {
-    const res = await fetch(`${RSVP_API_URL}?accion=listarInvitados`);
+    const res = await fetch(`${RSVP_API_URL}?accion=Invitados`);
     const data = await res.json();
 
     invitados = Array.isArray(data) ? data : [];
 
-    const datalist = document.getElementById("listaInvitados");
+    const datalist = document.getElementById("Invitados");
     datalist.innerHTML = "";
 
     invitados.forEach(inv => {
