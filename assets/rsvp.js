@@ -21,7 +21,7 @@ async function cargarInvitados() {
 
     invitados = Array.isArray(data) ? data : [];
 
-    const datalist = document.getElementById("listaInvitados");
+    const datalist = document.getElementById("Invitados");
     datalist.innerHTML = "";
 
     invitados.forEach(inv => {
