@@ -1,5 +1,5 @@
 
-const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbwVUEOIgqJgV-Uma1h0viJps_cXTrwZPiJeWyac2zgv5_5ICAfI9BnG2RgKqG1BlIyk/exec";
+const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbxuXrhH1Aq1z0vHtQeNw3KOBlrOm9bt-giqR0txunmGH3hWQjqb7etv0I-h4QTPlJ11/exec";
 
 let invitados = [];
 let invitadoSeleccionado = null;
@@ -9,9 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const inputBusqueda = document.getElementById("busquedaInvitado");
   inputBusqueda.addEventListener("input", manejarSeleccionInvitado);
-  inputBusqueda.addEventListener("change", manejarSeleccionInvitado);
 });
 
+/* =========================
+   CARGAR INVITADOS
+========================= */
 async function cargarInvitados() {
   try {
     const res = await fetch(`${RSVP_API_URL}?accion=Invitados`);
@@ -19,26 +21,42 @@ async function cargarInvitados() {
 
     invitados = Array.isArray(data) ? data : [];
 
-    const datalist = document.getElementById("Invitados");
+    const datalist = document.getElementById("listaInvitados");
     datalist.innerHTML = "";
 
     invitados.forEach(inv => {
+      const nombre = String(inv.invitado || "").trim();
+      if (!nombre) return;
+
       const option = document.createElement("option");
-      option.value = inv.invitado;
+      option.value = nombre;
       datalist.appendChild(option);
     });
+
   } catch (error) {
     console.error("Error cargando invitados:", error);
     mostrarEstado("No se pudo cargar la lista de invitados.", true);
   }
 }
 
+/* =========================
+   BUSQUEDA INTELIGENTE
+========================= */
 function manejarSeleccionInvitado() {
-  const texto = document.getElementById("busquedaInvitado").value.trim().toLowerCase();
+  const texto = document.getElementById("busquedaInvitado").value
+    .trim()
+    .toLowerCase();
 
-  invitadoSeleccionado = invitados.find(
-    inv => inv.invitado.trim().toLowerCase() === texto
-  );
+  if (!texto) {
+    ocultarBloquesRSVP();
+    return;
+  }
+
+  // 🔥 BUSQUEDA TOLERANTE (contiene texto)
+  invitadoSeleccionado = invitados.find(inv => {
+    const nombre = String(inv.invitado || "").toLowerCase();
+    return nombre.includes(texto);
+  });
 
   if (!invitadoSeleccionado) {
     ocultarBloquesRSVP();
@@ -49,6 +67,9 @@ function manejarSeleccionInvitado() {
   generarOpcionesConfirmacion(invitadoSeleccionado.cupos);
 }
 
+/* =========================
+   MOSTRAR DATOS
+========================= */
 function mostrarDatosInvitado(inv) {
   document.getElementById("datoInvitado").textContent = inv.invitado;
   document.getElementById("datoCodigo").textContent = inv.codigo;
@@ -60,6 +81,9 @@ function mostrarDatosInvitado(inv) {
   document.getElementById("bloqueBoton").style.display = "block";
 }
 
+/* =========================
+   OPCIONES DE CONFIRMACION
+========================= */
 function generarOpcionesConfirmacion(cupos) {
   const select = document.getElementById("confirmacionSelect");
   select.innerHTML = "";
@@ -77,6 +101,9 @@ function generarOpcionesConfirmacion(cupos) {
   }
 }
 
+/* =========================
+   GUARDAR RSVP
+========================= */
 async function guardarRSVP() {
   if (!invitadoSeleccionado) {
     mostrarEstado("Seleccioná un invitado válido.", true);
@@ -113,12 +140,16 @@ async function guardarRSVP() {
     } else {
       mostrarEstado(data.error || "No se pudo guardar la confirmación.", true);
     }
+
   } catch (error) {
     console.error("Error guardando RSVP:", error);
     mostrarEstado("Ocurrió un error al guardar la confirmación.", true);
   }
 }
 
+/* =========================
+   UI HELPERS
+========================= */
 function ocultarBloquesRSVP() {
   document.getElementById("datosInvitado").style.display = "none";
   document.getElementById("bloqueConfirmacion").style.display = "none";
