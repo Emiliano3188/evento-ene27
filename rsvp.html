@@ -23,55 +23,70 @@
 </div>
 
 <div class="container">
-  <h2>Confirmar Asistencia</h2>
-  <p class="rsvp-intro">
-    Nos ayudaría muchísimo que puedas confirmar tu asistencia para organizarnos mejor.
-  </p>
+  <div id="loginInvitado" class="rsvp-formulario">
+    <h3>Ingresá tu código</h3>
 
-  <div class="rsvp-formulario">
+    <input
+      type="text"
+      id="inputCodigo"
+      placeholder="Ej: A012"
+    >
 
-    <div class="rsvp-bloque">
-      <label for="busquedaInvitado">Buscar invitado</label>
-      <input
-        type="text"
-        id="busquedaInvitado"
-        list="listaInvitados"
-        placeholder="Escribí tu nombre"
-        autocomplete="off"
-      >
-      <datalist id="Invitados"></datalist>
+    <button class="btn" onclick="validarAcceso()">Ingresar</button>
+
+    <p id="errorLogin" class="estado-rsvp error"></p>
+  </div>
+  <div class="rsvp-formulario" id="formRSVP" style="display:none;">
+    <h2>Confirmar Asistencia</h2>
+    <p class="rsvp-intro">
+      Nos ayudaría muchísimo que puedas confirmar tu asistencia para organizarnos mejor.
+    </p>
+
+    <div class="rsvp-formulario">
+
+      <!-- <div class="rsvp-bloque">
+        <label for="busquedaInvitado">Buscar invitado</label>
+        <input
+          type="text"
+          id="busquedaInvitado"
+          list="Invitados"
+          placeholder="Escribí tu nombre"
+          autocomplete="off"
+        >
+        <datalist id="Invitados"></datalist>
+      </div> -->
+
+      <div class="rsvp-bloque rsvp-datos" id="datosInvitado" style="display:none;">
+        <h3>Datos del invitado</h3>
+        <p><strong>Invitado:</strong> <span id="datoInvitado"></span></p>
+        <p><strong>Código:</strong> <span id="datoCodigo"></span></p>
+        <p><strong>Cupos disponibles:</strong> <span id="datoCupos"></span></p>
+        <!-- <p><strong>Saldo pendiente:</strong> <span id="datoSaldo"></span></p> -->
+      </div>
+
+      <div class="rsvp-bloque" id="bloqueConfirmacion" style="display:none;">
+        <label for="confirmacionSelect">Confirmación</label>
+        <select id="confirmacionSelect"></select>
+      </div>
+
+      <div class="rsvp-bloque" id="bloqueMensaje" style="display:none;">
+        <label for="mensajeNovios">Mensaje para los novios</label>
+        <textarea
+          id="mensajeNovios"
+          rows="4"
+          placeholder="Dejanos un mensajito si querés 💛"
+        ></textarea>
+      </div>
+
+      <div class="rsvp-bloque" id="bloqueBoton" style="display:none;">
+        <button class="btn" onclick="guardarRSVP()">Confirmar asistencia</button>
+      </div>
+
+      <p id="estadoRSVP" class="estado-rsvp"></p>
     </div>
-
-    <div class="rsvp-bloque rsvp-datos" id="datosInvitado" style="display:none;">
-      <h3>Datos del invitado</h3>
-      <p><strong>Invitado:</strong> <span id="datoInvitado"></span></p>
-      <p><strong>Código:</strong> <span id="datoCodigo"></span></p>
-      <p><strong>Cupos disponibles:</strong> <span id="datoCupos"></span></p>
-      <!-- <p><strong>Saldo pendiente:</strong> <span id="datoSaldo"></span></p> -->
-    </div>
-
-    <div class="rsvp-bloque" id="bloqueConfirmacion" style="display:none;">
-      <label for="confirmacionSelect">Confirmación</label>
-      <select id="confirmacionSelect"></select>
-    </div>
-
-    <div class="rsvp-bloque" id="bloqueMensaje" style="display:none;">
-      <label for="mensajeNovios">Mensaje para los novios</label>
-      <textarea
-        id="mensajeNovios"
-        rows="4"
-        placeholder="Dejanos un mensajito si querés 💛"
-      ></textarea>
-    </div>
-
-    <div class="rsvp-bloque" id="bloqueBoton" style="display:none;">
-      <button class="btn" onclick="guardarRSVP()">Confirmar asistencia</button>
-    </div>
-
-    <p id="estadoRSVP" class="estado-rsvp"></p>
   </div>
 </div>
-
+<script src="./assets/app.js"></script>
 <script src="./assets/rsvp.js"></script>
 </body>
 </html>

@@ -659,6 +659,11 @@ color:#4d7c59;
 color:#b24c4c;
 }
 
+.saludo {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-top: 4px;
+}
 /* -------------------- */
 /* RESPONSIVE */
 /* -------------------- */
