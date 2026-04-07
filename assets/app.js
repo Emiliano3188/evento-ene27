@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/TU_SCRIPT/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbxwGu7FQPYJkaKFrstRmpWGlw0Oz3-hiMjlFWwWuybc_zjLcIq3VJasJAqwYuHRT1kf/exec";
 
 let invitadoGlobal = null;
 
