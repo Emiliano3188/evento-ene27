@@ -132,6 +132,7 @@ function iniciarPortadaSobre() {
   document.body.classList.add("intro-lock");
 
   abrirBtn.addEventListener("click", () => {
+    console.log("CLICK SOBRE");
     abrirBtn.disabled = true;
     envelopeWrapper.classList.add("open");
 
