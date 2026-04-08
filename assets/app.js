@@ -1,5 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbxwGu7FQPYJkaKFrstRmpWGlw0Oz3-hiMjlFWwWuybc_zjLcIq3VJasJAqwYuHRT1kf/exec";
-
+const API_URL = "https://script.google.com/macros/s/AKfycbwjgDcMlAh1FfsMEO4KHhpyq-1Tw_gzVQOHgKyy6IA0mUwVHuETFjkiOM2_8Qlo7BVu/exec";
 let invitadoGlobal = null;
 
 /* =========================
@@ -43,6 +42,7 @@ async function cargarInvitadoPorCodigo(codigo) {
 
     invitadoGlobal = inv;
     localStorage.setItem("invitado", JSON.stringify(inv));
+    localStorage.setItem("nombreInvitado", inv.invitado || "");
 
   } catch (e) {
     console.error("Error cargando invitado", e);
@@ -54,8 +54,10 @@ async function cargarInvitadoPorCodigo(codigo) {
 ========================= */
 function cargarDesdeStorage() {
   const data = localStorage.getItem("invitado");
+
   if (data) {
     invitadoGlobal = JSON.parse(data);
+    localStorage.setItem("nombreInvitado", invitadoGlobal.invitado || "");
   }
 }
 

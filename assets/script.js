@@ -3,57 +3,47 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxh8HHttDdvc4vOgW-LliLG
 document.addEventListener("DOMContentLoaded", () => {
   cargarCanciones();
   activarAnimacionScroll();
+  iniciarPortadaSobre();
 });
-
 
 /* -------------------- */
 /* CARGAR CANCIONES */
 /* -------------------- */
 
 async function cargarCanciones() {
-
   try {
-
     const res = await fetch(API_URL);
     const data = await res.json();
 
     const lista = document.getElementById("listaCanciones");
 
-    if(!lista) return;
+    if (!lista) return;
 
     lista.innerHTML = "";
 
     data.forEach(cancion => {
-
       const li = document.createElement("li");
       li.textContent = cancion;
-
       lista.appendChild(li);
-
     });
 
   } catch (error) {
-
     console.error("Error cargando canciones:", error);
-
   }
-
 }
-
 
 /* -------------------- */
 /* AGREGAR CANCION */
 /* -------------------- */
 
 async function agregarCancion() {
-
   const input = document.getElementById("cancion");
-  const cancion = input.value.trim();
+  if (!input) return;
 
+  const cancion = input.value.trim();
   if (!cancion) return;
 
   try {
-
     await fetch(API_URL, {
       method: "POST",
       mode: "no-cors",
@@ -61,65 +51,135 @@ async function agregarCancion() {
     });
 
     input.value = "";
-
-    setTimeout(cargarCanciones,1000);
+    setTimeout(cargarCanciones, 1000);
 
   } catch (error) {
-
     console.error("Error agregando canción:", error);
-
   }
-
 }
-
 
 /* -------------------- */
 /* ANIMACION SCROLL */
 /* -------------------- */
 
-function activarAnimacionScroll(){
-
+function activarAnimacionScroll() {
   const sections = document.querySelectorAll(".section");
+  if (!sections.length) return;
 
-  window.addEventListener("scroll", () => {
-
+  const mostrarSeccionesVisibles = () => {
     sections.forEach(sec => {
-
       const top = sec.getBoundingClientRect().top;
 
-      if(top < window.innerHeight - 100){
+      if (top < window.innerHeight - 100) {
         sec.classList.add("visible");
       }
-
     });
+  };
 
+  mostrarSeccionesVisibles();
+  window.addEventListener("scroll", mostrarSeccionesVisibles);
+}
+
+/* -------------------- */
+/* PORTADA SOBRE INICIAL */
+/* -------------------- */
+
+function iniciarPortadaSobre() {
+  const overlay = document.getElementById("introOverlay");
+  const abrirBtn = document.getElementById("abrirSobreBtn");
+  const envelopeWrapper = document.getElementById("envelopeWrapper");
+  const introGuestName = document.getElementById("introGuestName");
+  const introFrontGuest = document.getElementById("introFrontGuest");
+  const introKicker = document.querySelector(".intro-kicker");
+  const introMessage = document.querySelector(".letter-message");
+
+  if (!overlay || !abrirBtn || !envelopeWrapper) return;
+
+  const invitado = obtenerInvitadoCompleto();
+  const nombreInvitado = invitado?.invitado ? capitalizarNombre(invitado.invitado) : obtenerNombreInvitadoIntro();
+  const yaConfirmo = invitado?.estadoRsvp === "Confirma";
+
+  if (introGuestName) {
+    introGuestName.textContent = nombreInvitado ? `Para ${nombreInvitado}` : "Para ti";
+  }
+
+  if (introFrontGuest) {
+    introFrontGuest.textContent = nombreInvitado ? `Para ${nombreInvitado}` : "Para ti";
+  }
+
+  if (yaConfirmo) {
+    if (introKicker) {
+      introKicker.textContent = "Tu asistencia ya fue confirmada";
+    }
+
+    if (introMessage) {
+      introMessage.textContent = "Gracias por acompañarnos en este momento tan especial. Nos hace muy felices contar con vos.";
+    }
+
+    if (abrirBtn) {
+      abrirBtn.textContent = "Ver invitación";
+    }
+  }
+
+  const yaVioIntro = sessionStorage.getItem("introSobreVisto");
+
+  if (yaVioIntro === "true") {
+    overlay.classList.add("oculto");
+    document.body.classList.remove("intro-lock");
+    return;
+  }
+
+  document.body.classList.add("intro-lock");
+
+  abrirBtn.addEventListener("click", () => {
+    abrirBtn.disabled = true;
+    envelopeWrapper.classList.add("open");
+
+    setTimeout(() => {
+      overlay.classList.add("oculto");
+      document.body.classList.remove("intro-lock");
+      sessionStorage.setItem("introSobreVisto", "true");
+    }, 1900);
   });
-
 }
 
-/* PETALOS CAYENDO */
-
-function crearPetalo(){
-
-const petalo = document.createElement("div");
-
-petalo.className = "petalo";
-
-petalo.style.left = Math.random()*100 + "vw";
-
-petalo.style.animationDuration = (8 + Math.random()*6) + "s";
-
-petalo.style.transform = `rotate(${Math.random()*360}deg)`;
-
-document.body.appendChild(petalo);
-
-setTimeout(()=>{
-petalo.remove();
-},15000);
-
+function obtenerInvitadoCompleto() {
+  try {
+    const data = localStorage.getItem("invitado");
+    if (!data) return null;
+    return JSON.parse(data);
+  } catch (error) {
+    console.error("Error leyendo invitado desde storage:", error);
+    return null;
+  }
 }
 
-/* velocidad de aparición */
+function obtenerNombreInvitadoIntro() {
+  const params = new URLSearchParams(window.location.search);
 
-setInterval(crearPetalo,1800);
+  const desdeQuery =
+    params.get("nombre") ||
+    params.get("invitado") ||
+    params.get("guest");
 
+  const desdeStorage =
+    localStorage.getItem("nombreInvitado") ||
+    sessionStorage.getItem("nombreInvitado") ||
+    localStorage.getItem("invitadoNombre") ||
+    sessionStorage.getItem("invitadoNombre");
+
+  const nombreFinal = (desdeQuery || desdeStorage || "").trim();
+
+  if (!nombreFinal) return "";
+
+  return capitalizarNombre(nombreFinal);
+}
+
+function capitalizarNombre(texto) {
+  return texto
+    .toLowerCase()
+    .split(" ")
+    .filter(Boolean)
+    .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1))
+    .join(" ");
+}

@@ -1,4 +1,5 @@
-const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbxwGu7FQPYJkaKFrstRmpWGlw0Oz3-hiMjlFWwWuybc_zjLcIq3VJasJAqwYuHRT1kf/exec";
+const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbz1gVKZ84cZwK-bARMWQAPDM1GuQDL0-cPJyHaIL9K4e6LGZlmbthinnEzncvJMEVQ/exec";
+                      
 
 let invitadoSeleccionado = null;
 
@@ -106,44 +107,33 @@ function generarOpcionesConfirmacion(cupos) {
 ========================= */
 async function guardarRSVP() {
   if (!invitadoSeleccionado) {
-    mostrarEstado("No hay invitado seleccionado.", true);
+    mostrarEstado("Seleccioná un invitado válido.", true);
     return;
   }
 
   const confirmados = Number(document.getElementById("confirmacionSelect").value);
   const mensaje = document.getElementById("mensajeNovios").value.trim();
-
   const estadoRsvp = confirmados === 0 ? "No asiste" : "Confirma";
 
-  const payload = {
-    accion: "guardarRSVP",
-    codigo: invitadoSeleccionado.codigo,
-    confirmados,
-    estadoRsvp,
-    mensaje,
-    observaciones: ""
-  };
+  const url = `${RSVP_API_URL}?accion=guardarRSVP`
+    + `&codigo=${encodeURIComponent(invitadoSeleccionado.codigo)}`
+    + `&confirmados=${confirmados}`
+    + `&estadoRsvp=${encodeURIComponent(estadoRsvp)}`
+    + `&mensaje=${encodeURIComponent(mensaje)}`;
 
   try {
-    const res = await fetch(RSVP_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-
+    const res = await fetch(url);
     const data = await res.json();
 
     if (data.ok) {
-      mostrarEstado("¡Confirmación enviada! 💛", false);
+      mostrarEstado("✅ Confirmación guardada correctamente", false);
     } else {
-      mostrarEstado(data.error || "No se pudo guardar.", true);
+      mostrarEstado(data.error || "Error al guardar", true);
     }
 
   } catch (error) {
     console.error("Error:", error);
-    mostrarEstado("Error al enviar confirmación.", true);
+    mostrarEstado("Error de conexión", true);
   }
 }
 
