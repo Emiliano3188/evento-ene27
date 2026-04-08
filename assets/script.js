@@ -93,10 +93,15 @@ function iniciarPortadaSobre() {
   const introKicker = document.querySelector(".intro-kicker");
   const introMessage = document.querySelector(".letter-message");
 
+  console.log("init portada", { overlay, abrirBtn, envelopeWrapper });
+
   if (!overlay || !abrirBtn || !envelopeWrapper) return;
 
   const invitado = obtenerInvitadoCompleto();
-  const nombreInvitado = invitado?.invitado ? capitalizarNombre(invitado.invitado) : obtenerNombreInvitadoIntro();
+  const nombreInvitado = invitado?.invitado
+    ? capitalizarNombre(invitado.invitado)
+    : obtenerNombreInvitadoIntro();
+
   const yaConfirmo = invitado?.estadoRsvp === "Confirma";
 
   if (introGuestName) {
@@ -113,35 +118,38 @@ function iniciarPortadaSobre() {
     }
 
     if (introMessage) {
-      introMessage.textContent = "Gracias por acompañarnos en este momento tan especial. Nos hace muy felices contar con vos.";
+      introMessage.textContent =
+        "Gracias por acompañarnos en este momento tan especial. Nos hace muy felices contar con vos.";
     }
 
-    if (abrirBtn) {
-      abrirBtn.textContent = "Ver invitación";
-    }
+    abrirBtn.textContent = "Ver invitación";
   }
 
   const yaVioIntro = sessionStorage.getItem("introSobreVisto");
 
   if (yaVioIntro === "true") {
-    overlay.classList.add("oculto");
+    overlay.style.display = "none";
     document.body.classList.remove("intro-lock");
     return;
   }
 
   document.body.classList.add("intro-lock");
 
-  abrirBtn.addEventListener("click", () => {
+  abrirBtn.onclick = function () {
     console.log("CLICK SOBRE");
     abrirBtn.disabled = true;
     envelopeWrapper.classList.add("open");
 
     setTimeout(() => {
       overlay.classList.add("oculto");
+    }, 900);
+
+    setTimeout(() => {
+      overlay.style.display = "none";
       document.body.classList.remove("intro-lock");
       sessionStorage.setItem("introSobreVisto", "true");
-    }, 1900);
-  });
+    }, 1800);
+  };
 }
 
 function obtenerInvitadoCompleto() {
