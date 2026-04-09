@@ -1,4 +1,4 @@
-const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbz1gVKZ84cZwK-bARMWQAPDM1GuQDL0-cPJyHaIL9K4e6LGZlmbthinnEzncvJMEVQ/exec";
+const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbwqW5pW6sjCJ7MPl0QZg1vJTXDDJHzfU7-1bHlcgGFGOqfTx0TYnlQe3nMUH_OjP74t/exec";
                       
 
 let invitadoSeleccionado = null;

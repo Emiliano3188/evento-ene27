@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbwjgDcMlAh1FfsMEO4KHhpyq-1Tw_gzVQOHgKyy6IA0mUwVHuETFjkiOM2_8Qlo7BVu/exec";
+const APP_API_URL = "https://script.google.com/macros/s/AKfycbwqW5pW6sjCJ7MPl0QZg1vJTXDDJHzfU7-1bHlcgGFGOqfTx0TYnlQe3nMUH_OjP74t/exec";
 let invitadoGlobal = null;
 
 /* =========================
@@ -29,7 +29,7 @@ function obtenerCodigoDesdeURL() {
 ========================= */
 async function cargarInvitadoPorCodigo(codigo) {
   try {
-    const res = await fetch(`${API_URL}?accion=Invitados`);
+    const res = await fetch(`${APP_API_URL}?accion=Invitados`);
     const data = await res.json();
 
     if (!Array.isArray(data)) return;

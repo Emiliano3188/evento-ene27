@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbxh8HHttDdvc4vOgW-LliLGQO9QuLH4mUk_aUnfhz3lybk2FbxYGj3oIdH3r-L8l0mO/exec";
+const CancionesAPI_URL = "https://script.google.com/macros/s/AKfycbwaDEJOG8NpgCectMs2tKGmjPRQHyBN9-WEQQWUOg3ZSyNUTBg9tpEO7spf6ND_gGWG/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
   cargarCanciones();
@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function cargarCanciones() {
   try {
-    const res = await fetch(API_URL);
+    const res = await fetch(CancionesAPI_URL);
     const data = await res.json();
 
     const lista = document.getElementById("listaCanciones");
@@ -44,7 +44,7 @@ async function agregarCancion() {
   if (!cancion) return;
 
   try {
-    await fetch(API_URL, {
+    await fetch(CancionesAPI_URL, {
       method: "POST",
       mode: "no-cors",
       body: JSON.stringify({ cancion })
