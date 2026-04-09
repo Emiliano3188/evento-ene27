@@ -93,8 +93,6 @@ function iniciarPortadaSobre() {
   const introKicker = document.querySelector(".intro-kicker");
   const introMessage = document.querySelector(".letter-message");
 
-  console.log("init portada", { overlay, abrirBtn, envelopeWrapper });
-
   if (!overlay || !abrirBtn || !envelopeWrapper) return;
 
   const invitado = obtenerInvitadoCompleto();
@@ -136,19 +134,19 @@ function iniciarPortadaSobre() {
   document.body.classList.add("intro-lock");
 
   abrirBtn.onclick = function () {
-    console.log("CLICK SOBRE");
+    
     abrirBtn.disabled = true;
     envelopeWrapper.classList.add("open");
 
     setTimeout(() => {
       overlay.classList.add("oculto");
-    }, 900);
+    }, 5000);
 
     setTimeout(() => {
       overlay.style.display = "none";
       document.body.classList.remove("intro-lock");
       sessionStorage.setItem("introSobreVisto", "true");
-    }, 1800);
+    }, 5900);
   };
 }
 
