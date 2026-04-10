@@ -1,7 +1,11 @@
-const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbwqW5pW6sjCJ7MPl0QZg1vJTXDDJHzfU7-1bHlcgGFGOqfTx0TYnlQe3nMUH_OjP74t/exec";
-                      
+const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbxgy-hf0Twx_tHVmUUbW28Scku9kd5cshqUjfSGUp0exDKO_pdB5xaq8sXknjczNTde/exec";
 
 let invitadoSeleccionado = null;
+
+/* =========================
+   CONFIG FECHA LIMITE
+========================= */
+const FECHA_LIMITE_RSVP = new Date("2026-11-30T23:59:59");
 
 /* =========================
    INIT (DOMContentLoaded)
@@ -10,21 +14,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const inv = getInvitado();
 
   if (!inv) {
-    // 🔒 no está logueado → muestra login
     document.getElementById("loginInvitado").style.display = "block";
     document.getElementById("formRSVP").style.display = "none";
     return;
   }
 
-  // 🔓 está logueado → muestra RSVP
   invitadoSeleccionado = inv;
 
   document.getElementById("loginInvitado").style.display = "none";
   document.getElementById("formRSVP").style.display = "block";
 
-  // 🔥 autocargar datos
   mostrarDatosInvitado(inv);
   generarOpcionesConfirmacion(inv.cupos);
+  aplicarEstadoEdicion(inv);
 });
 
 /* =========================
@@ -51,10 +53,9 @@ async function validarAcceso() {
       return;
     }
 
-    // 🔥 guardar sesión global
     localStorage.setItem("invitado", JSON.stringify(invitado));
+    localStorage.setItem("nombreInvitado", invitado.invitado || "");
 
-    // 🔄 recargar (app.js lo va a levantar)
     location.reload();
 
   } catch (error) {
@@ -103,11 +104,55 @@ function generarOpcionesConfirmacion(cupos) {
 }
 
 /* =========================
+   ESTADO DE EDICION
+========================= */
+function puedeEditarRSVP() {
+  const ahora = new Date();
+  return ahora <= FECHA_LIMITE_RSVP;
+}
+
+function aplicarEstadoEdicion(inv) {
+  const select = document.getElementById("confirmacionSelect");
+  const mensaje = document.getElementById("mensajeNovios");
+  const btn = document.querySelector("#bloqueBoton .btn");
+  const leyenda = document.getElementById("leyendaCierreRSVP");
+
+  if (!select || !mensaje || !btn || !leyenda) return;
+
+  if (puedeEditarRSVP()) {
+    leyenda.textContent =
+      "Podrás confirmar o modificar tu respuesta hasta el 1 de diciembre de 2026.";
+    return;
+  }
+
+  select.disabled = true;
+  mensaje.disabled = true;
+  btn.disabled = true;
+  btn.textContent = "RSVP cerrado";
+
+  leyenda.textContent =
+    "El plazo para confirmar o modificar la asistencia finalizó el 1 de diciembre de 2026.";
+
+  if (inv && inv.estadoRsvp === "Confirma") {
+    mostrarEstado("Tu asistencia ya había sido registrada previamente ✅", false);
+  } else if (inv && inv.estadoRsvp === "No asiste") {
+    mostrarEstado("Tu respuesta ya había sido registrada previamente.", false);
+  } else {
+    mostrarEstado("El plazo para responder ya finalizó.", true);
+  }
+}
+
+/* =========================
    GUARDAR RSVP
 ========================= */
 async function guardarRSVP() {
   if (!invitadoSeleccionado) {
     mostrarEstado("Seleccioná un invitado válido.", true);
+    return;
+  }
+
+  if (!puedeEditarRSVP()) {
+    mostrarEstado("El plazo para confirmar o modificar finalizó el 1 de diciembre de 2026.", true);
     return;
   }
 
@@ -127,6 +172,12 @@ async function guardarRSVP() {
 
     if (data.ok) {
       mostrarEstado("✅ Confirmación guardada correctamente", false);
+
+      invitadoSeleccionado.confirmados = confirmados;
+      invitadoSeleccionado.estadoRsvp = estadoRsvp;
+      invitadoSeleccionado.mensaje = mensaje;
+
+      localStorage.setItem("invitado", JSON.stringify(invitadoSeleccionado));
     } else {
       mostrarEstado(data.error || "Error al guardar", true);
     }

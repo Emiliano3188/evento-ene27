@@ -587,6 +587,17 @@ body.intro-lock{
   box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
+.img-wrap{
+  position:relative;
+  display:inline-block;
+}
+
+.img-protect{
+  position:absolute;
+  inset:0;
+  z-index:5;
+  background:transparent;
+}
 /* -------------------- */
 /* CARDS */
 /* -------------------- */
@@ -895,6 +906,14 @@ footer{
   font-size:14px;
   opacity:0.8;
   margin-top:4px;
+}
+
+.leyenda-rsvp{
+  margin-top:10px;
+  font-size:14px;
+  line-height:1.5;
+  color:#8a6a70;
+  opacity:0.95;
 }
 
 /* -------------------- */
