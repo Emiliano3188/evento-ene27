@@ -129,7 +129,7 @@ body.intro-lock{
 .envelope-art{
   position:relative;
   width:100%;
-  max-width:430px;
+  max-width:640px;
   height:380px;
   margin:0 auto;
   transform-style:preserve-3d;
@@ -326,7 +326,7 @@ body.intro-lock{
 }
 
 .envelope-wrapper.open .envelope-letter{
-  transform:translateX(-50%) translateY(-145px);
+  transform:translateX(-50%) translateY(-185px);
 }
 
 .btn-intro{
@@ -933,7 +933,7 @@ footer{
   }
 
   .envelope-art{
-    max-width:340px;
+    max-width:640px;
     height:330px;
   }
 

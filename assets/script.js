@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   cargarCanciones();
   activarAnimacionScroll();
   iniciarPortadaSobre();
+  protegerImagenes();
 });
 
 /* -------------------- */
@@ -190,3 +191,39 @@ function capitalizarNombre(texto) {
     .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1))
     .join(" ");
 }
+
+/* -------------------- */
+/* PROTEGER IMAGENES */
+/* -------------------- */
+
+function protegerImagenes() {
+  const imagenes = document.querySelectorAll(".carousel img");
+
+  imagenes.forEach(img => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "img-wrap";
+
+    const protector = document.createElement("div");
+    protector.className = "img-protect";
+
+    img.parentNode.insertBefore(wrapper, img);
+    wrapper.appendChild(img);
+    wrapper.appendChild(protector);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  protegerImagenes();
+});
+
+/* -------------------- */
+/* BLOQUEAR CLICK DERECHO */
+/* -------------------- */
+
+document.addEventListener("contextmenu", function(e) {
+  e.preventDefault();
+});
+
+document.querySelectorAll("img").forEach(img => {
+  img.addEventListener("dragstart", e => e.preventDefault());
+});
