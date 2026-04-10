@@ -164,22 +164,28 @@ body.intro-lock{
 .envelope-letter{
   position:absolute;
   left:50%;
-  bottom:16px;
-  transform:translateX(-50%) translateY(0);
+  bottom:0;
+  transform:translateX(-50%) translateY(40px);
   width:calc(100% - 42px);
-  height:78%;
+  height:85%;
   padding:30px 26px;
   border-radius:22px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(255,250,247,0.98) 100%);
+
+  background:linear-gradient(180deg, #fffdf9 0%, #f6eee8 100%);
   border:1px solid rgba(183,110,121,0.15);
+
   box-shadow:
-    0 18px 40px rgba(120,85,95,0.14),
+    0 20px 50px rgba(120,85,95,0.18),
     inset 0 1px 0 rgba(255,255,255,0.8);
+
   text-align:center;
   z-index:2;
-  transition:transform 1.15s cubic-bezier(.22,.61,.36,1);
-  overflow:hidden;
+
+  transition:
+    transform 1.4s cubic-bezier(.22,.61,.36,1),
+    opacity 0.8s ease;
+
+  opacity:0;
 }
 
 .letter-ornament{
@@ -215,10 +221,50 @@ body.intro-lock{
 
 .letter-message{
   max-width:320px;
-  margin:0 auto 16px auto;
-  font-size:17px;
-  line-height:1.65;
+  margin:10px auto 18px auto;
+
+  font-family:'Playfair Display', serif; /* 👈 clave */
+  font-size:18px;
+  line-height:1.8;
+
   color:#6e6265;
+  font-style:italic;
+
+  position:relative;
+}
+
+.letter-message::before{
+  content:"“";
+  font-size:40px;
+  position:absolute;
+  left:-10px;
+  top:-10px;
+  color:#b76e79;
+  opacity:0.4;
+}
+
+.letter-message::after{
+  content:"”";
+  font-size:40px;
+  position:absolute;
+  right:-10px;
+  bottom:-20px;
+  color:#b76e79;
+  opacity:0.4;
+}
+.letter-ornament{
+  width:120px;
+  height:2px;
+  margin:0 auto 14px auto;
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    #b76e79,
+    transparent
+  );
+
+  opacity:0.6;
 }
 
 .letter-guest{
@@ -233,17 +279,26 @@ body.intro-lock{
   top:0;
   left:0;
   width:100%;
-  height:230px;
+  height:260px;
+
   border-radius:28px;
+
   background:
     linear-gradient(160deg, #f4dfe4 0%, #ebd1d9 32%, #e7d5ca 68%, #f2e5dc 100%);
+
   border:1px solid rgba(183,110,121,0.25);
-  clip-path:polygon(0 0, 100% 0, 50% 100%);
+
+  clip-path:polygon(0 0, 100% 0, 50% 85%);
+
   transform-origin:top center;
-  transition:transform 1s cubic-bezier(.22,.61,.36,1);
+  transition:transform 1.2s cubic-bezier(.22,.61,.36,1);
+
   z-index:5;
   backface-visibility:hidden;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.55);
+
+  box-shadow:
+    0 10px 20px rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.6);
 }
 
 .envelope-front{
@@ -251,19 +306,23 @@ body.intro-lock{
   left:0;
   bottom:0;
   width:100%;
-  height:70%;
+  height:78%;
+
   border-radius:0 0 28px 28px;
+
   background:
     linear-gradient(150deg, rgba(255,255,255,0.22), rgba(255,255,255,0.02)),
     linear-gradient(160deg, #f0d7de 0%, #ecd1d8 34%, #e6d6cb 70%, #f2e4da 100%);
+
   border:1px solid rgba(183,110,121,0.25);
+
   z-index:6;
+
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
   padding:20px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.55);
 }
 
 .front-ornament{
@@ -326,7 +385,8 @@ body.intro-lock{
 }
 
 .envelope-wrapper.open .envelope-letter{
-  transform:translateX(-50%) translateY(-185px);
+  transform:translateX(-50%) translateY(-205px);
+  opacity:1;
 }
 
 .btn-intro{
@@ -343,7 +403,17 @@ body.intro-lock{
   box-shadow:
     0 12px 24px rgba(124,88,96,0.14),
     inset 0 1px 0 rgba(255,255,255,0.75);
-  transition:transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.btn-intro.oculto{
+  opacity:0;
+  transform:translateY(20px);
+  pointer-events:none;
 }
 
 .btn-intro:hover{
@@ -953,7 +1023,7 @@ footer{
 
   .envelope-art{
     max-width:640px;
-    height:330px;
+    height:300px;
   }
 
   .front-title{
@@ -966,6 +1036,7 @@ footer{
 
   .letter-message{
     font-size:15px;
+
   }
 
   .letter-guest{
@@ -974,6 +1045,7 @@ footer{
 
   .envelope-wrapper.open .envelope-letter{
     transform:translateX(-50%) translateY(-158px);
+    opacity:1;
   }
 
   .btn-intro{

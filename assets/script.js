@@ -135,7 +135,7 @@ function iniciarPortadaSobre() {
   document.body.classList.add("intro-lock");
 
   abrirBtn.onclick = function () {
-    
+    abrirBtn.classList.add("oculto"); 
     abrirBtn.disabled = true;
     envelopeWrapper.classList.add("open");
 
