@@ -26,7 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   mostrarDatosInvitado(inv);
   generarOpcionesConfirmacion(inv.cupos);
+  cargarRespuestaGuardada(inv);
   aplicarEstadoEdicion(inv);
+  
 });
 
 /* =========================
@@ -90,11 +92,21 @@ function generarOpcionesConfirmacion(cupos) {
   const select = document.getElementById("confirmacionSelect");
   select.innerHTML = "";
 
+  // 👇 PLACEHOLDER (VA PRIMERO)
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Seleccioná tu respuesta";
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  select.appendChild(placeholder);
+
+  // 👇 OPCIÓN NO ASISTE
   const opcionNoAsiste = document.createElement("option");
   opcionNoAsiste.value = "0";
   opcionNoAsiste.textContent = "No asistiré";
   select.appendChild(opcionNoAsiste);
 
+  // 👇 OPCIONES SEGÚN CUPOS
   for (let i = 1; i <= cupos; i++) {
     const option = document.createElement("option");
     option.value = i;
@@ -195,4 +207,28 @@ function mostrarEstado(texto, esError) {
   const estado = document.getElementById("estadoRSVP");
   estado.textContent = texto;
   estado.className = esError ? "estado-rsvp error" : "estado-rsvp ok";
+}
+
+function generarOpcionesConfirmacion(cupos) {
+  const select = document.getElementById("confirmacionSelect");
+  select.innerHTML = "";
+
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Seleccioná tu respuesta";
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  select.appendChild(placeholder);
+
+  const opcionNoAsiste = document.createElement("option");
+  opcionNoAsiste.value = "0";
+  opcionNoAsiste.textContent = "No asistiré";
+  select.appendChild(opcionNoAsiste);
+
+  for (let i = 1; i <= cupos; i++) {
+    const option = document.createElement("option");
+    option.value = String(i);
+    option.textContent = `Confirmo ${i} persona${i > 1 ? "s" : ""}`;
+    select.appendChild(option);
+  }
 }
