@@ -1036,6 +1036,7 @@ footer{
 
   .letter-message{
     font-size:15px;
+    line-height: 1.7;
 
   }
 
@@ -1044,8 +1045,12 @@ footer{
   }
 
   .envelope-wrapper.open .envelope-letter{
-    transform:translateX(-50%) translateY(-158px);
+    transform:translateX(-50%) translateY(-178px);
     opacity:1;
+  }
+
+  .envelope-letter {
+  overflow: visible;
   }
 
   .btn-intro{
