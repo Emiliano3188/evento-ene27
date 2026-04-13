@@ -118,7 +118,7 @@ function iniciarPortadaSobre() {
 
     if (introMessage) {
       introMessage.textContent =
-        "El amor es aquello que todos ansiamos,<br>pero que muy pocos tienen el valor de buscar...";
+        "El amor es aquello que todos ansiamos, pero que muy pocos tienen el valor de buscar...";
     }
 
     abrirBtn.textContent = "Ver invitación";
