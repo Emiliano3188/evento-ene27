@@ -1,4 +1,4 @@
-const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbxgy-hf0Twx_tHVmUUbW28Scku9kd5cshqUjfSGUp0exDKO_pdB5xaq8sXknjczNTde/exec";
+const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbzEN4zzZ7zglJDzs_5vdSDC294LPsXE3ZGwbff1VSB_OyAovUAEadN0jIWL302eAQYa/exec";
 
 let invitadoSeleccionado = null;
 
@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
   generarOpcionesConfirmacion(inv.cupos);
   cargarRespuestaGuardada(inv);
   aplicarEstadoEdicion(inv);
-  
 });
 
 /* =========================
@@ -92,7 +91,6 @@ function generarOpcionesConfirmacion(cupos) {
   const select = document.getElementById("confirmacionSelect");
   select.innerHTML = "";
 
-  // 👇 PLACEHOLDER (VA PRIMERO)
   const placeholder = document.createElement("option");
   placeholder.value = "";
   placeholder.textContent = "Seleccioná tu respuesta";
@@ -100,18 +98,35 @@ function generarOpcionesConfirmacion(cupos) {
   placeholder.selected = true;
   select.appendChild(placeholder);
 
-  // 👇 OPCIÓN NO ASISTE
   const opcionNoAsiste = document.createElement("option");
   opcionNoAsiste.value = "0";
   opcionNoAsiste.textContent = "No asistiré";
   select.appendChild(opcionNoAsiste);
 
-  // 👇 OPCIONES SEGÚN CUPOS
   for (let i = 1; i <= cupos; i++) {
     const option = document.createElement("option");
-    option.value = i;
+    option.value = String(i);
     option.textContent = `Confirmo ${i} persona${i > 1 ? "s" : ""}`;
     select.appendChild(option);
+  }
+}
+
+function cargarRespuestaGuardada(inv) {
+  if (!inv) return;
+
+  const select = document.getElementById("confirmacionSelect");
+  const textarea = document.getElementById("mensajeNovios");
+
+  if (select) {
+    if (inv.estadoRsvp === "No asiste") {
+      select.value = "0";
+    } else if (inv.confirmados && inv.confirmados > 0) {
+      select.value = String(inv.confirmados);
+    }
+  }
+
+  if (textarea) {
+    textarea.value = inv.mensaje ? inv.mensaje : "";
   }
 }
 
@@ -207,46 +222,4 @@ function mostrarEstado(texto, esError) {
   const estado = document.getElementById("estadoRSVP");
   estado.textContent = texto;
   estado.className = esError ? "estado-rsvp error" : "estado-rsvp ok";
-}
-
-function generarOpcionesConfirmacion(cupos) {
-  const select = document.getElementById("confirmacionSelect");
-  select.innerHTML = "";
-
-  const placeholder = document.createElement("option");
-  placeholder.value = "";
-  placeholder.textContent = "Seleccioná tu respuesta";
-  placeholder.disabled = true;
-  placeholder.selected = true;
-  select.appendChild(placeholder);
-
-  const opcionNoAsiste = document.createElement("option");
-  opcionNoAsiste.value = "0";
-  opcionNoAsiste.textContent = "No asistiré";
-  select.appendChild(opcionNoAsiste);
-
-  for (let i = 1; i <= cupos; i++) {
-    const option = document.createElement("option");
-    option.value = String(i);
-    option.textContent = `Confirmo ${i} persona${i > 1 ? "s" : ""}`;
-    select.appendChild(option);
-  }
-}
-function cargarRespuestaGuardada(inv) {
-  if (!inv) return;
-
-  const select = document.getElementById("confirmacionSelect");
-  const textarea = document.getElementById("mensajeNovios");
-
-  if (select) {
-    if (inv.estadoRsvp === "No asiste") {
-      select.value = "0";
-    } else if (inv.confirmados && inv.confirmados > 0) {
-      select.value = String(inv.confirmados);
-    }
-  }
-
-  if (textarea) {
-    textarea.value = inv.mensaje ? inv.mensaje : "";
-  }
 }
