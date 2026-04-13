@@ -1045,7 +1045,7 @@ footer{
   }
 
   .envelope-wrapper.open .envelope-letter{
-    transform:translateX(-50%) translateY(-178px);
+    transform:translateX(-50%) translateY(-188px);
     opacity:1;
   }
 

@@ -121,7 +121,7 @@ function aplicarEstadoEdicion(inv) {
 
   if (puedeEditarRSVP()) {
     leyenda.textContent =
-      "Podrás confirmar o modificar tu respuesta hasta el 1 de diciembre de 2026.";
+      "Podrás confirmar o modificar tu respuesta hasta el 30 de Noviembre de 2026.";
     return;
   }
 
@@ -131,7 +131,7 @@ function aplicarEstadoEdicion(inv) {
   btn.textContent = "RSVP cerrado";
 
   leyenda.textContent =
-    "El plazo para confirmar o modificar la asistencia finalizó el 1 de diciembre de 2026.";
+    "El plazo para confirmar o modificar la asistencia finalizó el 30 de Noviembre de 2026.";
 
   if (inv && inv.estadoRsvp === "Confirma") {
     mostrarEstado("Tu asistencia ya había sido registrada previamente ✅", false);
@@ -152,7 +152,7 @@ async function guardarRSVP() {
   }
 
   if (!puedeEditarRSVP()) {
-    mostrarEstado("El plazo para confirmar o modificar finalizó el 1 de diciembre de 2026.", true);
+    mostrarEstado("El plazo para confirmar o modificar finalizó el 30 de Noviembre de 2026.", true);
     return;
   }
 
