@@ -232,3 +232,21 @@ function generarOpcionesConfirmacion(cupos) {
     select.appendChild(option);
   }
 }
+function cargarRespuestaGuardada(inv) {
+  if (!inv) return;
+
+  const select = document.getElementById("confirmacionSelect");
+  const textarea = document.getElementById("mensajeNovios");
+
+  if (select) {
+    if (inv.estadoRsvp === "No asiste") {
+      select.value = "0";
+    } else if (inv.confirmados && inv.confirmados > 0) {
+      select.value = String(inv.confirmados);
+    }
+  }
+
+  if (textarea) {
+    textarea.value = inv.mensaje ? inv.mensaje : "";
+  }
+}
