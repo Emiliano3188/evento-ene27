@@ -1,4 +1,4 @@
-const CancionesAPI_URL = "https://script.google.com/macros/s/AKfycbwaDEJOG8NpgCectMs2tKGmjPRQHyBN9-WEQQWUOg3ZSyNUTBg9tpEO7spf6ND_gGWG/exec";
+const CancionesAPI_URL = "https://script.google.com/macros/s/AKfycbxg_eL_Kfk58E8paJQsH4w2YAnAWsO3X0uorXUhDyq80_2LnzXNovDeZ7da-5nZHFRT/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
   cargarCanciones();
@@ -13,11 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function cargarCanciones() {
   try {
-    const res = await fetch(CancionesAPI_URL);
+    const res = await fetch(`${CancionesAPI_URL}?accion=listar`);
     const data = await res.json();
 
     const lista = document.getElementById("listaCanciones");
-
     if (!lista) return;
 
     lista.innerHTML = "";
@@ -32,7 +31,6 @@ async function cargarCanciones() {
     console.error("Error cargando canciones:", error);
   }
 }
-
 /* -------------------- */
 /* AGREGAR CANCION */
 /* -------------------- */
@@ -45,20 +43,22 @@ async function agregarCancion() {
   if (!cancion) return;
 
   try {
-    await fetch(CancionesAPI_URL, {
-      method: "POST",
-      mode: "no-cors",
-      body: JSON.stringify({ cancion })
-    });
+    const url = `${CancionesAPI_URL}?accion=agregarCancion&cancion=${encodeURIComponent(cancion)}`;
+    const res = await fetch(url);
+    const data = await res.json();
 
-    input.value = "";
-    setTimeout(cargarCanciones, 1000);
+    if (data.ok) {
+      input.value = "";
+      cargarCanciones();
+    } else {
+      alert(data.error || "No se pudo agregar la canción");
+    }
 
   } catch (error) {
     console.error("Error agregando canción:", error);
+    alert("Error al agregar la canción");
   }
 }
-
 /* -------------------- */
 /* ANIMACION SCROLL */
 /* -------------------- */
