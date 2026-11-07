@@ -1,11 +1,12 @@
-const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbzEN4zzZ7zglJDzs_5vdSDC294LPsXE3ZGwbff1VSB_OyAovUAEadN0jIWL302eAQYa/exec";
+const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbyhuSo1_WN1tOIviNOMUJ7OYQVnQchlbSrGt3zIbu0hmrVLKi3cHJx4yYk7CRjUwyWf/exec";
+
 
 let invitadoSeleccionado = null;
 
 /* =========================
    CONFIG FECHA LIMITE
 ========================= */
-const FECHA_LIMITE_RSVP = new Date("2026-11-30T23:59:59");
+const FECHA_LIMITE_RSVP = new Date("2026-12-15T23:59:59");
 
 /* =========================
    INIT (DOMContentLoaded)
